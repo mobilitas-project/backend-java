@@ -38,7 +38,6 @@ public class EmploymentWS {
 				.get(Vaga.class);	
 		
 		return Response.status(200).entity(vaga).build();
-			
 	}
 	
 	@GET
