@@ -1,0 +1,6 @@
+---
+applications:
+- name: mobilitas
+  host: mobilitas
+  domain: mybluemix.net
+  path: defaultServer

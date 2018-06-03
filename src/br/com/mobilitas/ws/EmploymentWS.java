@@ -34,7 +34,7 @@ public class EmploymentWS {
 	public Response getRequests() {
 		Client client = ClientBuilder.newClient();
 		
-		WebTarget target = client.target("http://sandbox.catho.com.br/v1/vagas");
+		WebTarget target = client.target("http://sandbox.catho.com.br/v1/vagas?pageSize=30");
 			
 		ResultEmployment resultEmployment = target.request(MediaType.APPLICATION_JSON)
 				.header("Content-type", "application/json")
