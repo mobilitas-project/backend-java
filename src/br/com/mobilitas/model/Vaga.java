@@ -15,12 +15,50 @@ public class Vaga {
 	private String horario;
 	private String tipo;
 	private String status;
-	private String estagio;
+	private Estagio estagio;
 	private Salario salario;
 	private ArrayList<Recrutador> recrutadores; 
-	private  Localidade localidade;
+	private Localidade localidade;
 	private Contratante contratante;
     private Requisito requisitos;
+    private ArrayList<Questionario> questionario;
+    private PCD pcd;
+    private Filtro filtros;
+    private Configuracao configuracoes;
+    private Link _links;
+       
+	
+    
+	public ArrayList<Questionario> getQuestionario() {
+		return questionario;
+	}
+	public void setQuestionario(ArrayList<Questionario> questionario) {
+		this.questionario = questionario;
+	}
+	public PCD getPcd() {
+		return pcd;
+	}
+	public void setPcd(PCD pcd) {
+		this.pcd = pcd;
+	}
+	public Filtro getFiltros() {
+		return filtros;
+	}
+	public void setFiltros(Filtro filtros) {
+		this.filtros = filtros;
+	}
+	public Configuracao getConfiguracoes() {
+		return configuracoes;
+	}
+	public void setConfiguracoes(Configuracao configuracoes) {
+		this.configuracoes = configuracoes;
+	}
+	public Link get_links() {
+		return _links;
+	}
+	public void set_links(Link _links) {
+		this._links = _links;
+	}
 	public String getId() {
 		return id;
 	}
@@ -87,10 +125,11 @@ public class Vaga {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getEstagio() {
+
+	public Estagio getEstagio() {
 		return estagio;
 	}
-	public void setEstagio(String estagio) {
+	public void setEstagio(Estagio estagio) {
 		this.estagio = estagio;
 	}
 	public Salario getSalario() {

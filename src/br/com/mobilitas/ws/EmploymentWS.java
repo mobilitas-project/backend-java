@@ -21,6 +21,9 @@ import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 
+import br.com.mobilitas.model.ResultEmployment;
+import br.com.mobilitas.model.Vaga;
+
 @Path("/employment")
 public class EmploymentWS {
 
@@ -31,23 +34,35 @@ public class EmploymentWS {
 		
 		WebTarget target = client.target("http://sandbox.catho.com.br/v1/vagas");
 			
-		Response response = target.request(MediaType.APPLICATION_JSON)
+		ResultEmployment resultEmployment = target.request(MediaType.APPLICATION_JSON)
 				.header("Content-type", "application/json")
 				.header("auth-Token", "yoon8WGF9cPt")
 				.header("app-token", "Lxw8xmtkjs7w")
-				.get();
+				.get(ResultEmployment.class);
 		
-		
-		
-		String latLongs[];
-		try {
-			latLongs = getLatLongPositions("TOTVS BRASIL");
-			return Response.status(200).entity("Latitude: " + latLongs[0] + " and Longitude: " + latLongs[1]).build();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
+		if(resultEmployment != null) {
+			String latLongs[];
+			try {
+				
+				for(Vaga vaga : resultEmployment.get_embedded().getVagas()) {
+					if(!vaga.getStatus().equals("DESATIVADA")) {
+						latLongs = getLatLongPositions(vaga.getContratante().getNome());
+						System.out.println("Latitude: " + latLongs[0] + " and Longitude: " + latLongs[1]);
+					}
+				}
+				
+				
+				return Response.status(200).entity("show").build();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return Response.status(400).entity("ERRO").build();
+			}
+		} else {
+			return Response.status(400).entity("ERRO").build();
 		}
+		
+		
 	}
 
 	public static String[] getLatLongPositions(String address) throws Exception {

@@ -6,6 +6,14 @@ public class Localidade {
 
 	private ArrayList<Local> locais;
 	private String tipo;
+	private ArrayList<Cidade> cidades;
+
+	public ArrayList<Cidade> getCidades() {
+		return cidades;
+	}
+	public void setCidades(ArrayList<Cidade> cidades) {
+		this.cidades = cidades;
+	}
 	public ArrayList<Local> getLocais() {
 		return locais;
 	}

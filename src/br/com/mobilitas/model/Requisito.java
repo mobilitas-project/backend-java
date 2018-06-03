@@ -7,7 +7,9 @@ public class Requisito {
 	private String escolaridade;
 	private String conhecimentos;
 	private ArrayList<Idioma> idiomas;
-	private String estagio;
+	private Estagio estagio;
+	
+	
 	public String getExperiencias() {
 		return experiencias;
 	}
@@ -32,10 +34,10 @@ public class Requisito {
 	public void setIdiomas(ArrayList<Idioma> idiomas) {
 		this.idiomas = idiomas;
 	}
-	public String getEstagio() {
+	public Estagio getEstagio() {
 		return estagio;
 	}
-	public void setEstagio(String estagio) {
+	public void setEstagio(Estagio estagio) {
 		this.estagio = estagio;
 	}
 }
