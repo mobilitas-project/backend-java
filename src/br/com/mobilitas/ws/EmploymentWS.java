@@ -3,6 +3,7 @@ package br.com.mobilitas.ws;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -21,6 +22,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 
+import br.com.mobilitas.model.Employment;
 import br.com.mobilitas.model.ResultEmployment;
 import br.com.mobilitas.model.Vaga;
 
@@ -44,15 +46,28 @@ public class EmploymentWS {
 			String latLongs[];
 			try {
 				
+				ArrayList<Employment> employments = new ArrayList<Employment>();
+				
 				for(Vaga vaga : resultEmployment.get_embedded().getVagas()) {
 					if(!vaga.getStatus().equals("DESATIVADA")) {
 						latLongs = getLatLongPositions(vaga.getContratante().getNome());
-						System.out.println("Latitude: " + latLongs[0] + " and Longitude: " + latLongs[1]);
+						
+						Employment employment = new Employment();
+						employment.setLat(latLongs[0]);
+						employment.setLng(latLongs[1]);
+						employment.setId(vaga.getId());
+						employment.setTitle(vaga.getTitulo());
+						employment.setDescriptionCompany(vaga.getContratante().getNome());
+						employment.setSalary(vaga.getSalario().getValor());
+						employment.setRecruiterEmail(vaga.getRecrutadores().get(0).getEmail());
+						employment.setActivities(vaga.getAtividades());
+						
+						employments.add(employment);
+						
 					}
 				}
 				
-				
-				return Response.status(200).entity("show").build();
+				return Response.status(200).entity(employments).build();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
