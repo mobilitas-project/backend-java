@@ -162,4 +162,6 @@ public class Vaga {
 	public void setRequisitos(Requisito requisitos) {
 		this.requisitos = requisitos;
 	}   
+	
+	
 }
