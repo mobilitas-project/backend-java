@@ -26,6 +26,7 @@ public class EmploymentWS {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
 	public Response getEmploymentByID(@PathParam("id") String id) {
+		employmentController = new EmploymentController();
 		
 		Client client = ClientBuilder.newClient();
 		
@@ -37,7 +38,31 @@ public class EmploymentWS {
 				.header("app-token", "Lxw8xmtkjs7w")
 				.get(Vaga.class);	
 		
-		return Response.status(200).entity(vaga).build();
+		if(vaga != null) {
+			String latLongs[];
+			try {
+				latLongs = employmentController.getLatLongPositions(vaga.getContratante().getNome());
+				
+				Employment employment = new Employment();
+				employment.setLat(latLongs[0]);
+				employment.setLng(latLongs[1]);
+				employment.setId(vaga.getId());
+				employment.setTitle(vaga.getTitulo());
+				employment.setDescriptionCompany(vaga.getContratante().getNome());
+				employment.setSalary(vaga.getSalario().getValor());
+				employment.setRecruiterEmail(vaga.getRecrutadores().get(0).getEmail());
+				employment.setActivities(vaga.getAtividades());
+				
+				return Response.status(200).entity(employment).build();
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return Response.status(400).entity("ERRO").build();
 	}
 	
 	@GET
@@ -60,7 +85,11 @@ public class EmploymentWS {
 			try {
 				ArrayList<Employment> employments = new ArrayList<Employment>();
 				
+				int count = 0 ;
 				for(Vaga vaga : resultEmployment.get_embedded().getVagas()) {
+					if(count > 2) {
+						break;
+					}
 					if(!vaga.getStatus().equals("DESATIVADA")) {
 						latLongs = employmentController.getLatLongPositions(vaga.getContratante().getNome());
 						
@@ -76,6 +105,8 @@ public class EmploymentWS {
 						
 						employments.add(employment);
 					}
+					
+					count ++;
 				}
 				
 				return Response.status(200).entity(employments).build();
